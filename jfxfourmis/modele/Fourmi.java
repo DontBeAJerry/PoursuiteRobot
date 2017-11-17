@@ -3,7 +3,6 @@ package modele;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
-
 import javafx.scene.shape.Circle;
 
 /**classe representant une fourmi evoluant a la recherche de nourriture a l'aide de pheromones*/

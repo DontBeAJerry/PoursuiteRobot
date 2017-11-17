@@ -12,6 +12,7 @@ public class Terrain {
 	/**tableau des fourmis*/
 	private Fourmi[] lesFourmis;
 	private Robot[] lesRobots;
+	private Intru intru;
 	/**coordonnee x du nid*/
 	private int xNid;
 	/**coordonnee y du nid*/
@@ -38,6 +39,7 @@ public class Terrain {
 		yNid = taille/2;
 		initNid();
 		initRobots(nbFourmis);
+		initIntru();
 	}
 
 
@@ -138,6 +140,10 @@ public class Terrain {
 		}
 	}
 	
+	private void initIntru() {
+		intru = new Intru(0, getTaille(), this);
+	}
+	
 	/**  
 	 * demande a toutes les cellules de la grille a l'instant t d'evoluer, 
 	 */
@@ -192,5 +198,13 @@ public class Terrain {
 	
 	public Robot[] getLesRobots() {
 		return lesRobots;
+	}
+	
+	public void setIntru(Intru i) {
+		this.intru=i;
+	}
+	
+	public Intru getIntru() {
+		return this.intru;
 	}
 }

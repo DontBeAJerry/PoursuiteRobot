@@ -1,9 +1,6 @@
 package application;
 
 
-import modele.Cellule;
-import modele.Robot;
-import modele.Terrain;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -17,6 +14,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import modele.Cellule;
+import modele.Direction;
+import modele.Intru;
+import modele.Robot;
+import modele.Terrain;
 
 public class AppliRobots extends Application {
 	/**terrain liee a cet objet graphique*/
@@ -72,18 +74,19 @@ public class AppliRobots extends Application {
 		littleCycle.setCycleCount(Timeline.INDEFINITE);
 		littleCycle.play();
 		
-		/*Intrus intrus = terrain.getIntrus();
-		Circle dessinIntrus = intrus.getDessin();
+		
+		Intru intru = terrain.getIntru();
+		Circle dessinIntrus = intru.getDessin();
 		dessinIntrus.requestFocus();
 		dessinIntrus.setOnKeyPressed(e->{
 		  System.err.println(e.getCode());
 		  switch(e.getCode()) {
-		    case UP: intrus.setDirection(Direction.NORD); intrus.bougerVersDirection(); break;
-		    case LEFT: intrus.setDirection(Direction.OUEST); intrus.bougerVersDirection(); break;
-		    case DOWN: intrus.setDirection(Direction.SUD); intrus.bougerVersDirection(); break;
-		    case RIGHT: intrus.setDirection(Direction.EST); intrus.bougerVersDirection(); break;
+		    case UP: intru.setDirection(Direction.NORD); intru.bougerVersDirection(); break;
+		    case LEFT: intru.setDirection(Direction.OUEST); intru.bougerVersDirection(); break;
+		    case DOWN: intru.setDirection(Direction.SUD); intru.bougerVersDirection(); break;
+		    case RIGHT: intru.setDirection(Direction.EST); intru.bougerVersDirection(); break;
 		  }
-		});*/
+		});
 	}
 
 
