@@ -9,6 +9,8 @@ public class Cellule
 	private int x,y;
 	/**nourriture*/
 	private double nourriture;
+	/** presence : pas de caisse : 0, caisse normal : 1, caisse sensible : 2**/
+	private int caisse;
 	/**cellule d'un nid*/
 	private boolean nid;
 	/**presence d'au moins une fourmis*/
@@ -35,6 +37,7 @@ public class Cellule
 		this.x = x; this.y = y;
 		hasJustChanged = true;
 		nid = false;
+		caisse = 0;
 	}
 
 	/** evoluer = diffuser puis evaporer */
@@ -158,6 +161,14 @@ public class Cellule
 	 */
 	public void setEmptyNow(boolean emptyNow) {
 		this.emptyNow = emptyNow;
+	}
+
+	public int getCaisse() {
+		return caisse;
+	}
+
+	public void setCaisse(int caisse) {
+		this.caisse = caisse;
 	}
 
 }

@@ -14,6 +14,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import modele.Caisse;
 import modele.Cellule;
 import modele.Direction;
 import modele.Intru;
@@ -68,7 +69,7 @@ public class AppliRobots extends Application {
 		Timeline littleCycle = new Timeline(new KeyFrame(Duration.millis(tempo), new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				terrain.animGrille();
-				updateTerrain();
+		//		updateTerrain();
 			}
 		}));
 		littleCycle.setCycleCount(Timeline.INDEFINITE);
@@ -105,7 +106,18 @@ public class AppliRobots extends Application {
 				AppliRobots.environnement[i][j].setFill(Color.DARKGREEN);
 				root.getChildren().add(AppliRobots.environnement[i][j]);
 			}
-		for(int i=0; i<taille; i++)
+		//creation des caisses
+		/*for(int i=0; i<taille; i++)
+			for(int j=0; j<taille; j++)
+			{
+				if (grille[i][j].getCaisse() == 1)
+				{
+					Caisse c = new Caisse(i,j,1);
+					c.setDessin(new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace/2, Color.BLACK));
+					root.getChildren().add(c.getDessin());
+				}
+			}
+	/*	for(int i=0; i<taille; i++)
 			for(int j=0; j<taille; j++)
 			{
 				Cellule cell = grille[i][j];
@@ -128,15 +140,21 @@ public class AppliRobots extends Application {
 						root.getChildren().remove(AppliRobots.environnement[i][j] );
 						root.getChildren().add(AppliRobots.environnement[i][j]);
 					}
-			}
-
+			}*/
 		//cr�ation des fourmis, rouges tomate
 		for(Robot  r : terrain.getLesRobots())
 		{
 			r.setDessin(new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace/2, Color.TOMATO));
 			r.setPas(espace);
+			
+			
 			root.getChildren().add(r.getDessin());
 		}
+		//creation intru
+		Intru i = terrain.getIntru();
+		i.setDessin(new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace/2, Color.BLUE));
+		i.setPas(espace);
+		root.getChildren().add(i.getDessin());
 		
 		//petit effet de flou g�n�ral
 		root.setEffect(new BoxBlur(2, 2, 5));
@@ -145,7 +163,7 @@ public class AppliRobots extends Application {
 
 
 	/**modification de la couleur des cellules en fonction de la dose de nourriture et de ph�romones*/
-	private void updateTerrain()
+/*	private void updateTerrain()
 	{
 		Cellule[][] grille = terrain.getGrille();
 		for(int i=0; i<taille; i++)
@@ -166,7 +184,7 @@ public class AppliRobots extends Application {
 				}
 				
 			}
-	}
+	}*/
 
 
 	/**lancement de l'application*/

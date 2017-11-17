@@ -10,7 +10,7 @@ public class Intru {
 	/**position du Intru*/
 	Point p;
 	/**direction  du Intru*/
-	private Direction direction;
+//	private Direction direction;
 	/**etat du Intru*/
 	private EtatIntru etat;	
 	/**lien vers le terrain dans lequel se trouve la  fourmi*/
@@ -39,7 +39,6 @@ public class Intru {
 		p = new Point(_x, _y);
 		terrain=_terrain;
 		taille = terrain.getTaille();
-		dessin = new Circle(((taille+3))/2 , ((taille+3))/2, 2, Color.BLUE);
 		etat = EtatIntru.CACHER;
 	}
 
@@ -65,15 +64,15 @@ public class Intru {
 	/**fait avancer la fourmi dans sa direction si la case devant existe et est non occupee*/
 	public void bougerVersDirection()
 	{
-		Cellule cell = getNextCellule(direction);
+		Cellule cell = getNextCellule(dir);
 		if(cell!=null && !cell.isFourmis()) 
 		{
 			Cellule[][] grille = terrain.getGrille();
 			grille[p.x][p.y].setFourmis(false);
 			p.x = cell.getX();
 			p.y = cell.getY();
-			dessin.setCenterX((p.x+1) * pas);
-			dessin.setCenterY((p.y+2) * pas);
+			dessin.setCenterX((p.x+1.5) * pas);
+			dessin.setCenterY((p.y+1.5) * pas);
 			cell.setFourmis(true);
 		}
 	}

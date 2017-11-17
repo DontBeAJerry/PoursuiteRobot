@@ -13,6 +13,7 @@ public class Terrain {
 	private Fourmi[] lesFourmis;
 	private Robot[] lesRobots;
 	private Intru intru;
+	private int nbCaisse = 5;
 	/**coordonnee x du nid*/
 	private int xNid;
 	/**coordonnee y du nid*/
@@ -34,12 +35,13 @@ public class Terrain {
 		grille = new Cellule[taille][taille];
 		this.nbFourmis = _nbFourmis ;
 		init();
-		initNourriture();
+		
 		xNid = taille/2;
 		yNid = taille/2;
-		initNid();
+		//initNid();
 		initRobots(nbFourmis);
 		initIntru();
+	//	initCaisses(nbCaisse);
 	}
 
 
@@ -141,8 +143,24 @@ public class Terrain {
 	}
 	
 	private void initIntru() {
-		intru = new Intru(0, getTaille(), this);
+		intru = new Intru(taille/2, taille/2, this);
 	}
+	
+	private void initCaisses(int nbCaisses)
+	{
+		int i = nbCaisses;
+		while (i > 0)
+		{		
+			int x = (int) Math.random()*taille;
+			int y = (int) Math.random()*taille;
+			if (grille[x][y].getCaisse() == 0)
+			{
+				if (i != 1) {grille[x][y].setCaisse(1);}
+				else {grille[x][y].setCaisse(2);}
+				i--;
+			}
+		}
+	}	
 	
 	/**  
 	 * demande a toutes les cellules de la grille a l'instant t d'evoluer, 
