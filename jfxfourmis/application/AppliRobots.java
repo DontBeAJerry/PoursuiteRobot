@@ -25,7 +25,7 @@ public class AppliRobots extends Application {
 	/**terrain liee a cet objet graphique*/
 	private Terrain terrain;
 	/**nb de fourmis*/
-	int nbFourmis = 30;
+	int nbFourmis = 3;
 	/**vitesse de simulation*/
 	double tempo = 50;
 	/**taille de la terrain*/
@@ -60,7 +60,8 @@ public class AppliRobots extends Application {
 		primaryStage.setScene(scene);
 		//definir les acteurs et les habiller
 		AppliRobots.environnement = new Rectangle[taille][taille];
-		dessinEnvironnement( root);
+		dessinEnvironnement(root);
+
 
 		//afficher le theatre
 		primaryStage.show();
@@ -69,7 +70,7 @@ public class AppliRobots extends Application {
 		Timeline littleCycle = new Timeline(new KeyFrame(Duration.millis(tempo), new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				terrain.animGrille();
-		//		updateTerrain();
+				updateTerrain(root);
 			}
 		}));
 		littleCycle.setCycleCount(Timeline.INDEFINITE);
@@ -106,42 +107,28 @@ public class AppliRobots extends Application {
 				AppliRobots.environnement[i][j].setFill(Color.DARKGREEN);
 				root.getChildren().add(AppliRobots.environnement[i][j]);
 			}
+		
 		//creation des caisses
-		/*for(int i=0; i<taille; i++)
+		for(int i=0; i<taille; i++)
 			for(int j=0; j<taille; j++)
 			{
 				if (grille[i][j].getCaisse() == 1)
 				{
 					Caisse c = new Caisse(i,j,1);
-					c.setDessin(new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace/2, Color.BLACK));
+					Rectangle r = new Rectangle((i+1)*(espace), (j+1)*(espace), espace, espace);
+					r.setFill(Color.SANDYBROWN);
+					c.setDessin(r);
+					root.getChildren().add(c.getDessin());
+				}else if(grille[i][j].getCaisse() == 2){
+					Caisse c = new Caisse(i,j,1);
+					Rectangle r = new Rectangle((i+1)*(espace), (j+1)*(espace), espace, espace);
+					r.setFill(Color.SADDLEBROWN);
+					c.setDessin(r);
 					root.getChildren().add(c.getDessin());
 				}
 			}
-	/*	for(int i=0; i<taille; i++)
-			for(int j=0; j<taille; j++)
-			{
-				Cellule cell = grille[i][j];
-				if (cell.getNourriture()>0) // affichage des zones de nourritures 
-				{
-					Color colNouriture = Color.DARKGOLDENROD;
-					double ratio = cell.getNourriture() / 50d; // pourcentage de pheromone par rapport au max possible (50)
-					colNouriture = colNouriture.interpolate(Color.BISQUE, ratio);
-					AppliRobots.environnement[i][j] = new Rectangle((i+1)*(espace), (j+1)*(espace), espace, espace);
-					AppliRobots.environnement[i][j].setFill(colNouriture);
-					// dessin des nourritures au dessus de l'environnement
-					root.getChildren().add(AppliRobots.environnement[i][j]);
-				}
-				else
-					if (cell.isNid()) // affichage de la zone du nid
-					{
-						AppliRobots.environnement[i][j] = new Rectangle((i+1)*(espace), (j+1)*(espace), espace, espace);
-						AppliRobots.environnement[i][j].setFill(Color.BROWN);
-						// dessin des nids ï¿½ la place de l'environnement
-						root.getChildren().remove(AppliRobots.environnement[i][j] );
-						root.getChildren().add(AppliRobots.environnement[i][j]);
-					}
-			}*/
-		//crï¿½ation des fourmis, rouges tomate
+	
+		//creation des robots
 		for(Robot  r : terrain.getLesRobots())
 		{
 			r.setDessin(new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace/2, Color.TOMATO));
@@ -150,41 +137,49 @@ public class AppliRobots extends Application {
 			
 			root.getChildren().add(r.getDessin());
 		}
+		
 		//creation intru
 		Intru i = terrain.getIntru();
+		//Point de l'intru
 		i.setDessin(new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace/2, Color.BLUE));
+		//Champ de vision
+		
+		Circle cVue = new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace*3, Color.LIGHTBLUE);
+		cVue.setOpacity(0.2);
+		i.setDessinVue(cVue);
 		i.setPas(espace);
+		
+		
+		root.getChildren().add(i.getDessinVue());
 		root.getChildren().add(i.getDessin());
 		
-		//petit effet de flou gï¿½nï¿½ral
-		root.setEffect(new BoxBlur(2, 2, 5));
+		//petit effet de flou général
+		//root.setEffect(new BoxBlur(2, 2, 5));
 	}
 
 
 
-	/**modification de la couleur des cellules en fonction de la dose de nourriture et de phï¿½romones*/
-/*	private void updateTerrain()
+	/**efface la caisse sensible lorsqu'elle a ete prise*/
+	private void updateTerrain(Group root)
 	{
 		Cellule[][] grille = terrain.getGrille();
 		for(int i=0; i<taille; i++)
 			for(int j=0; j<taille; j++)
 			{
 				Cellule cell = grille[i][j];
-				if (cell.hasJustChanged && cell.getNourriture()>0) // affichage des zones de nourritures 
+				if (cell.getCaisse() == 0 && cell.isEmptyNow()) 
 				{
-					Color colNouriture = Color.DARKGOLDENROD;
-					double ratio = cell.getNourriture() / 50d; // pourcentage de pheromone par rapport au max possible (50)
-					colNouriture = colNouriture.interpolate(Color.BISQUE, ratio);
-					AppliRobots.environnement[i][j].setFill(colNouriture);
-				}
-				if (cell.hasJustChanged && cell.isEmptyNow()  && !cell.isNid())
-				{
-					AppliRobots.environnement[i][j].setFill(Color.DARKGREEN );
-					cell.setEmptyNow(false);
+					Caisse c = new Caisse(i,j,1);
+					Rectangle r = new Rectangle((1)*(espace), (1)*(espace), espace, espace);
+					r.setFill(Color.SADDLEBROWN);
+					c.setDessin(r);
+					root.getChildren().remove(c.getDessin());
+					
 				}
 				
+				
 			}
-	}*/
+	}
 
 
 	/**lancement de l'application*/

@@ -1,6 +1,7 @@
 package modele;
 
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 public class Caisse {
 
@@ -8,7 +9,7 @@ public class Caisse {
 	private int y;
 	private int classe;
 	
-	private Circle dessin;
+	private Rectangle dessin;
 	
 	
 	
@@ -22,14 +23,15 @@ public class Caisse {
 	/**
 	 * @return the dessin
 	 */
-	public Circle getDessin() {
+	public Rectangle getDessin() {
 		return dessin;
 	}
 
 	/**
 	 * @param dessin the dessin to set
 	 */
-	public void setDessin(Circle dessin) {
+	public void setDessin(Rectangle dessin) {
 		this.dessin = dessin;
 	}
+	
 }

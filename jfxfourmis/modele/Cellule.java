@@ -18,7 +18,7 @@ public class Cellule
 	private boolean robot;
 	/**odeur du nid*/
 	private double odeurNid;
-	/**defini la cellule vient d'etre videe de son contenu (nourriture)*/
+	/**defini la cellule vient d'etre videe de son contenu caisse*/
 	private boolean emptyNow;
 
 	/** reference a la grille des cellule*/
@@ -36,6 +36,7 @@ public class Cellule
 		Cellule.grille = grille;
 		this.x = x; this.y = y;
 		hasJustChanged = true;
+		emptyNow = false;
 		nid = false;
 		caisse = 0;
 	}
@@ -165,6 +166,13 @@ public class Cellule
 
 	public int getCaisse() {
 		return caisse;
+	}
+	
+	public boolean isCaisse(){
+		if(getCaisse() == 1 || getCaisse() == 2)
+			return true;
+		else
+			return false;
 	}
 
 	public void setCaisse(int caisse) {
