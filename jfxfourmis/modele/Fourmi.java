@@ -138,7 +138,7 @@ public class Fourmi {
 		for(Direction dir:directions)
 		{
 			Cellule cell = getNextCellule(dir);
-			if(cell != null && !cell.isFourmis())
+			if(cell != null && !cell.getRobot())
 				liste.add(dir);
 		}
 		return liste;		
@@ -178,15 +178,15 @@ public class Fourmi {
 	private void bougerVersDirection()
 	{
 		Cellule cell = getNextCellule(direction);
-		if(cell!=null && !cell.isFourmis()) 
+		if(cell!=null && !cell.getRobot()) 
 		{
 			Cellule[][] grille = terrain.getGrille();
-			grille[p.x][p.y].setFourmis(false);
+			grille[p.x][p.y].setRobot(false);
 			p.x = cell.getX();
 			p.y = cell.getY();
 			dessin.setCenterX((p.x+1) * pas);
 			dessin.setCenterY((p.y+2) * pas);
-			cell.setFourmis(true);
+			cell.setRobot(true);
 		}
 	}
 
@@ -211,7 +211,7 @@ public class Fourmi {
 		double nourriture = -1;
 		Cellule cell = getNextCellule(dir);
 		if(cell!=null) 
-			if(!cell.isFourmis())nourriture = cell.getNourriture();
+			if(!cell.getRobot())nourriture = cell.getNourriture();
 		return nourriture;		
 	}
 
@@ -223,7 +223,7 @@ public class Fourmi {
 		double odeurNid = -1;
 		Cellule cell = getNextCellule(dir);
 		if(cell!=null) 
-			if(!cell.isFourmis())odeurNid = cell.getOdeurNid();
+			if(!cell.getRobot())odeurNid = cell.getOdeurNid();
 		return odeurNid;		
 	}
 	

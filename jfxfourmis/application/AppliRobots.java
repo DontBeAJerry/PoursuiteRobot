@@ -50,13 +50,13 @@ public class AppliRobots extends Application {
 
 
 
-	/**construction du thï¿½atre et de la scï¿½ne */
+	/**construction du thï¿½atre et de la scï¿½ne **/
 	void construireScenePourFourmis(Stage primaryStage) 
 	{
 		//definir la scene principale
 		Group root = new Group();
 		Scene scene = new Scene(root, 2*espace + taille*espace, 2*espace + taille*espace, Color.BLACK);
-		primaryStage.setTitle("Life...");
+		primaryStage.setTitle("GOGOGOGOGO");
 		primaryStage.setScene(scene);
 		//definir les acteurs et les habiller
 		AppliRobots.environnement = new Rectangle[taille][taille];
@@ -89,13 +89,12 @@ public class AppliRobots extends Application {
 		    case RIGHT: intru.setDirection(Direction.EST); intru.bougerVersDirection(); break;
 		  }
 		});
+		terrain.champDeVisionIntrus();
 	}
 
 
 
-	/** 
-	 *creation des cellules et de leurs habits
-	 */
+	/** creation des cellules et de leurs habits **/
 	void dessinEnvironnement(Group root)
 	{
 		Cellule[][] grille = terrain.getGrille();
@@ -131,10 +130,9 @@ public class AppliRobots extends Application {
 		//creation des robots
 		for(Robot  r : terrain.getLesRobots())
 		{
-			r.setDessin(new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace/2, Color.TOMATO));
+			r.setDessin(new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace/2, Color.DARKGREEN));
 			r.setPas(espace);
-			
-			
+					
 			root.getChildren().add(r.getDessin());
 		}
 		
@@ -142,6 +140,7 @@ public class AppliRobots extends Application {
 		Intru i = terrain.getIntru();
 		//Point de l'intru
 		i.setDessin(new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace/2, Color.BLUE));
+		
 		//Champ de vision
 		
 		Circle cVue = new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace*3, Color.LIGHTBLUE);
@@ -153,7 +152,7 @@ public class AppliRobots extends Application {
 		root.getChildren().add(i.getDessinVue());
 		root.getChildren().add(i.getDessin());
 		
-		//petit effet de flou général
+		//petit effet de flou gï¿½nï¿½ral
 		//root.setEffect(new BoxBlur(2, 2, 5));
 	}
 
@@ -162,7 +161,7 @@ public class AppliRobots extends Application {
 	/**efface la caisse sensible lorsqu'elle a ete prise*/
 	private void updateTerrain(Group root)
 	{
-		Cellule[][] grille = terrain.getGrille();
+	/*	Cellule[][] grille = terrain.getGrille();
 		for(int i=0; i<taille; i++)
 			for(int j=0; j<taille; j++)
 			{
@@ -178,7 +177,29 @@ public class AppliRobots extends Application {
 				}
 				
 				
+			}*/
+		for(int i=-2; i<2; i++)
+			for(int j=-2; j<2; j++)
+			{//on test la vision de l'intrus et on affiche si il voit
+				int x = (int) (i + terrain.getIntru().getPoint().getX());
+				int y = (int) (j + terrain.getIntru().getPoint().getX());;
+				
+				for(Robot  r : terrain.getLesRobots())
+					{
+						if (r.testPositiont(x, y))
+						{
+							//on affiche le robot
+							r.setDessin(new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace/2, Color.DARKGREEN));
+						}
+						else
+						{
+							//on desaffiche le robot
+						}
+						
+						//TODO la meme chose pour les caisses
+					}
 			}
+			
 	}
 
 

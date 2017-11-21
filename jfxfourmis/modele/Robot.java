@@ -124,7 +124,7 @@ public class Robot {
 		double intru = -1;
 		Cellule cell = getNextCellule(dir);
 		if(cell!=null) 
-			if(!cell.isFourmis())intru = cell.getNourriture();
+			if(!cell.getRobot())intru = cell.getNourriture();
 		return intru;		
 	}
 	
@@ -138,7 +138,7 @@ public class Robot {
 		for(Direction dir:directions)
 		{
 			Cellule cell = getNextCellule(dir);
-			if(cell != null && !cell.isFourmis())
+			if(cell != null && !cell.getRobot())
 				liste.add(dir);
 		}
 		return liste;		
@@ -178,15 +178,15 @@ public class Robot {
 	private void bougerVersDirection()
 	{
 		Cellule cell = getNextCellule(direction);
-		if(cell!=null && !cell.isFourmis()) 
+		if(cell!=null && !cell.getRobot()) 
 		{
 			Cellule[][] grille = terrain.getGrille();
-			grille[p.x][p.y].setFourmis(false);
+			grille[p.x][p.y].setRobot(false);
 			p.x = cell.getX();
 			p.y = cell.getY();
-			dessin.setCenterX((p.x+1) * pas);
-			dessin.setCenterY((p.y+2) * pas);
-			cell.setFourmis(true);
+			dessin.setCenterX((p.x+1.5) * pas);
+			dessin.setCenterY((p.y+1.5) * pas);
+			cell.setRobot(true);
 		}
 	}
 
@@ -215,6 +215,13 @@ public class Robot {
 	 */
 	public Circle getDessin() {
 		return dessin;
+	}
+
+	/** permet de tester si le robet est a une position donné **/
+	
+	public boolean testPositiont(int x, int y)
+	{
+		return (p.x == x && p.y == y);
 	}
 
 	/**

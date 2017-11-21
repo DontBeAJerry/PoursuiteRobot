@@ -16,7 +16,7 @@ public class Terrain {
 	private Fourmi[] lesFourmis;
 	private Robot[] lesRobots;
 	private Intru intru;
-	private int nbCaisse = 5;
+	private int nbCaisse = 75;
 	/** coordonnee x du nid */
 	private int xNid;
 	/** coordonnee y du nid */
@@ -149,7 +149,7 @@ public class Terrain {
 	}
 
 	private void initIntru() {
-		intru = new Intru(taille / 2, taille / 2, this);
+		intru = new Intru(taille / 2, 0, this);
 	}
 
 	private void initCaisses(int nbCaisses) {
@@ -172,6 +172,31 @@ public class Terrain {
 		}
 	}
 	
+	/** On initialise la vision a true autour de la position de l'intrus **/
+	public void champDeVisionIntrus()
+	{
+		int x = (int) intru.getPoint().getX();
+		int y = (int) intru.getPoint().getY();
+		
+		resetVisible();
+		
+		for (int i = -2 ; i < 2 ; i++)
+			for (int j = -2 ; j < 2 ; j++)
+			{
+				grille[i+x][j+y].setVisible(true);
+			}
+		
+	}
+	
+	/** on rénitialise toute la vision a false **/
+	public void resetVisible()
+	{
+		for (int i = 0 ; i < taille ; i++)
+			for (int j = 0 ; j < taille ; j++)
+			{
+				grille[i][j].setVisible(false);
+			}
+	}
 	
 
 	/**

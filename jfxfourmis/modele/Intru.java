@@ -72,7 +72,7 @@ public class Intru {
 
 			if (cell != null && cell.getCaisse() != 1) {
 				Cellule[][] grille = terrain.getGrille();
-				grille[p.x][p.y].setFourmis(false);
+				grille[p.x][p.y].setRobot(false);
 				p.x = cell.getX();
 				p.y = cell.getY();
 				dessin.setCenterX((p.x + 1.5) * pas);
@@ -101,7 +101,7 @@ public class Intru {
 			
 		}
 	}
-
+	
 	/**
 	 * donne la prochaine case dans la direction donn�e
 	 * 

@@ -14,13 +14,16 @@ public class Cellule
 	/**cellule d'un nid*/
 	private boolean nid;
 	/**presence d'au moins une fourmis*/
-	private boolean fourmis;
 	private boolean robot;
 	/**odeur du nid*/
 	private double odeurNid;
 	/**defini la cellule vient d'etre videe de son contenu caisse*/
 	private boolean emptyNow;
-
+	/**intrus present dans la cellule**/
+	private boolean intrus;
+	/** cellule visible**/
+	private boolean visible;
+	
 	/** reference a la grille des cellule*/
 	static Cellule [][]grille;
 
@@ -39,6 +42,7 @@ public class Cellule
 		emptyNow = false;
 		nid = false;
 		caisse = 0;
+		visible = false;
 	}
 
 	/** evoluer = diffuser puis evaporer */
@@ -120,19 +124,15 @@ public class Cellule
 	/**
 	 * @return the fourmis
 	 */
-	public boolean isFourmis() {
-		return fourmis;
-	}
-	
-	public boolean isRobot() {
+	public boolean getRobot() {
 		return robot;
 	}
 
 	/**
 	 * @param fourmis the fourmis to set
 	 */
-	public void setFourmis(boolean fourmis) {
-		this.fourmis = fourmis;
+	public void setRobot(boolean robot) {
+		this.robot = robot;
 		this.hasJustChanged = true;
 	}
 
@@ -179,4 +179,13 @@ public class Cellule
 		this.caisse = caisse;
 	}
 
+	public boolean getVisible()
+	{
+		return visible;
+	}
+	
+	public void setVisible(boolean visible)
+	{
+		this.visible = visible;
+	}
 }
