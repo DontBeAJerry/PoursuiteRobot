@@ -15,6 +15,7 @@ public class Terrain {
 	/** tableau des fourmis */
 	private Fourmi[] lesFourmis;
 	private Robot[] lesRobots;
+	private Caisse[] lesCaisses;
 	private Intru intru;
 	private int nbCaisse = 75;
 	/** coordonnee x du nid */
@@ -149,24 +150,33 @@ public class Terrain {
 	}
 
 	private void initIntru() {
-		intru = new Intru(taille / 2, 0, this);
+		intru = new Intru(taille / 2, taille / 2, this);
 	}
 
 	private void initCaisses(int nbCaisses) {
 		int i = nbCaisses;
 		boolean caisseSensible = false;
+		lesCaisses = new Caisse[nbCaisses];
+		
 		while (i > 0) {
 			int x = (int) (Math.random() * 100);
 			int y = (int) (Math.random() * 100);
 			//Verifie que x et y sont bien dans le plan
-			if (x < taille && y < taille) {
+			if (x < taille && y < taille) 
+			{
 				//Pose la caisse sensible en premier et change le bool caisseSensible
-				if(!caisseSensible && grille[x][y].getCaisse() == 0){
+				if(!caisseSensible && grille[x][y].getCaisse() == 0)
+				{
+					lesCaisses[nbCaisses - i] = new Caisse(x,y,TypeCaisse.SENSIBLE);
 					grille[x][y].setCaisse(2);
 					caisseSensible = true;
-				}else if (grille[x][y].getCaisse() == 0)
+				}
+				else if (grille[x][y].getCaisse() == 0)
+				{
+					lesCaisses[nbCaisses - i] = new Caisse(x,y,TypeCaisse.NON_SENSIBLE);
 					grille[x][y].setCaisse(1);
 				
+				}	
 				i--;			
 			}
 		}
@@ -178,12 +188,13 @@ public class Terrain {
 		int x = (int) intru.getPoint().getX();
 		int y = (int) intru.getPoint().getY();
 		
-		resetVisible();
+		//resetVisible();
 		
 		for (int i = -2 ; i < 2 ; i++)
 			for (int j = -2 ; j < 2 ; j++)
 			{
-				grille[i+x][j+y].setVisible(true);
+				if (x + i >= 0 && i + x <= taille && y + j <= 0 && j + x >= taille)
+						grille[i+x][j+y].setVisible(true);
 			}
 		
 	}
@@ -261,4 +272,10 @@ public class Terrain {
 	public Intru getIntru() {
 		return this.intru;
 	}
+
+	public Caisse[] getLesCaisses() {
+		return lesCaisses;
+	}
+
+	
 }

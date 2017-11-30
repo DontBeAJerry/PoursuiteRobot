@@ -20,6 +20,7 @@ import modele.Direction;
 import modele.Intru;
 import modele.Robot;
 import modele.Terrain;
+import modele.TypeCaisse;
 
 public class AppliRobots extends Application {
 	/**terrain liee a cet objet graphique*/
@@ -27,7 +28,7 @@ public class AppliRobots extends Application {
 	/**nb de fourmis*/
 	int nbFourmis = 3;
 	/**vitesse de simulation*/
-	double tempo = 50;
+	double tempo = 500;
 	/**taille de la terrain*/
 	private int taille;
 	/**taille d'une cellule en pixel*/
@@ -56,7 +57,7 @@ public class AppliRobots extends Application {
 		//definir la scene principale
 		Group root = new Group();
 		Scene scene = new Scene(root, 2*espace + taille*espace, 2*espace + taille*espace, Color.BLACK);
-		primaryStage.setTitle("GOGOGOGOGO");
+		primaryStage.setTitle("Cherche la caisse et sauves toi!");
 		primaryStage.setScene(scene);
 		//definir les acteurs et les habiller
 		AppliRobots.environnement = new Rectangle[taille][taille];
@@ -89,7 +90,6 @@ public class AppliRobots extends Application {
 		    case RIGHT: intru.setDirection(Direction.EST); intru.bougerVersDirection(); break;
 		  }
 		});
-		terrain.champDeVisionIntrus();
 	}
 
 
@@ -103,12 +103,12 @@ public class AppliRobots extends Application {
 			for(int j=0; j<taille; j++)
 			{
 				AppliRobots.environnement[i][j] = new Rectangle((i+1)*(espace), (j+1)*(espace), espace, espace);
-				AppliRobots.environnement[i][j].setFill(Color.DARKGREEN);
+				AppliRobots.environnement[i][j].setFill(Color.DARKSLATEGRAY);
 				root.getChildren().add(AppliRobots.environnement[i][j]);
 			}
 		
 		//creation des caisses
-		for(int i=0; i<taille; i++)
+	/*	for(int i=0; i<taille; i++)
 			for(int j=0; j<taille; j++)
 			{
 				if (grille[i][j].getCaisse() == 1)
@@ -121,16 +121,34 @@ public class AppliRobots extends Application {
 				}else if(grille[i][j].getCaisse() == 2){
 					Caisse c = new Caisse(i,j,1);
 					Rectangle r = new Rectangle((i+1)*(espace), (j+1)*(espace), espace, espace);
-					r.setFill(Color.SADDLEBROWN);
+					r.setFill(Color.RED);
 					c.setDessin(r);
 					root.getChildren().add(c.getDessin());
 				}
 			}
-	
+	*/
+		
+		//creation des caisses
+		for(Caisse c : terrain.getLesCaisses())
+		{
+			if (c.getClasse() == TypeCaisse.SENSIBLE)
+			{
+				c.setDessin(new Rectangle((c.getX()+1)*(espace), (c.getY()+1)*(espace),espace , espace));
+				c.getDessin().setFill(Color.GOLD);	
+			}
+			else
+			{
+				c.setDessin(new Rectangle((c.getX()+1)*(espace), (c.getY()+1)*(espace),espace , espace));
+				c.getDessin().setFill(Color.BLACK);
+			}
+			
+			root.getChildren().add(c.getDessin());
+		}
+		
 		//creation des robots
 		for(Robot  r : terrain.getLesRobots())
 		{
-			r.setDessin(new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace/2, Color.DARKGREEN));
+			r.setDessin(new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace/2, Color.RED));
 			r.setPas(espace);
 					
 			root.getChildren().add(r.getDessin());
@@ -161,6 +179,8 @@ public class AppliRobots extends Application {
 	/**efface la caisse sensible lorsqu'elle a ete prise*/
 	private void updateTerrain(Group root)
 	{
+		
+		
 	/*	Cellule[][] grille = terrain.getGrille();
 		for(int i=0; i<taille; i++)
 			for(int j=0; j<taille; j++)
@@ -178,28 +198,47 @@ public class AppliRobots extends Application {
 				
 				
 			}*/
+		
+		
+	//	terrain.champDeVisionIntrus();
+		
 		for(int i=-2; i<2; i++)
 			for(int j=-2; j<2; j++)
+		
 			{//on test la vision de l'intrus et on affiche si il voit
 				int x = (int) (i + terrain.getIntru().getPoint().getX());
 				int y = (int) (j + terrain.getIntru().getPoint().getX());;
 				
-				for(Robot  r : terrain.getLesRobots())
+				if (x >= 0 && x <= taille && y >= 0 && y <= taille)
+				{
+					for(Caisse c : terrain.getLesCaisses())
 					{
-						if (r.testPositiont(x, y))
+						if (c.getX() == x && c.getY() == y)
 						{
-							//on affiche le robot
-							r.setDessin(new Circle(((taille+3)*espace)/2 , ((taille+3)*espace)/2, espace/2, Color.DARKGREEN));
+							//on affiche les caisses
+							c.getDessin().setFill(Color.VIOLET);
 						}
 						else
 						{
-							//on desaffiche le robot
+							//on desaffiche les caisses
+							
 						}
-						
-						//TODO la meme chose pour les caisses
 					}
+				}
 			}
-			
+		
+		
+	/*
+		for (int i = 0 ; i < taille; i++)
+			for (int j = 0; j < taille ; j ++)
+			{
+				for (Caisse c : terrain.getLesCaisses())
+				if (terrain.getGrille()[i][j].getVisible() == true && terrain.getGrille()[i][j].isCaisse())
+				{
+					c.getDessin().setFill(Color.BLACK);
+				}
+			}
+		*/
 	}
 
 

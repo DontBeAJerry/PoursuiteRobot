@@ -1,25 +1,38 @@
 package modele;
 
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class Caisse {
 
 	private int x;
 	private int y;
-	private int classe;
+	private TypeCaisse classe;
 	
 	private Rectangle dessin;
 	
 	
 	
-	public Caisse(int x, int y, int classe)
+	public Caisse(int x, int y, TypeCaisse classe)
 	{
 		this.x = x;
 		this.y = y;
 		this.classe = classe;
 	}
 	
+	public int getX() {
+		return x;
+	}
+
+
+	public int getY() {
+		return y;
+	}
+
+
+	public TypeCaisse getClasse() {
+		return classe;
+	}
+
 	/**
 	 * @return the dessin
 	 */
